@@ -6,7 +6,7 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900 px-6 py-10 sm:px-10">
+    <main className="min-h-screen bg-slate-50 px-6 py-10 text-slate-900 sm:px-10">
       <section className="mx-auto flex w-full max-w-4xl flex-col gap-10 rounded-[2rem] border border-slate-200 bg-white/95 p-8 shadow-lg shadow-slate-200/50 backdrop-blur-sm sm:p-12">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>

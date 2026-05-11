@@ -34,7 +34,7 @@ Status: In progress
 - API design document.
 - Database schema document.
 - Project roadmap.
-- Initial frontend scaffold.
+- Initial React, Vite, TypeScript, and Tailwind CSS frontend scaffold.
 
 ### Exit Criteria
 
@@ -148,6 +148,7 @@ Status: In progress
 ### Exit Criteria
 
 - Frontend can run locally with `npm run dev` or `npm start`.
+- Frontend production builds run TypeScript checks before Vite builds.
 - Users can complete the first-release workflows through the UI.
 - The UI is responsive and keyboard accessible for core flows.
 

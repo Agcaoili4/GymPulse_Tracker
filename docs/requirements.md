@@ -100,5 +100,5 @@ This document defines the product requirements that the roadmap, architecture, A
 ### Maintainability
 
 - Backend code should be organized by responsibility: controllers, services, data access, models, and DTOs.
-- Frontend code should use reusable components and API service modules.
+- Frontend code should use TypeScript, reusable components, and API service modules.
 - Documentation must stay aligned across product scope, API contracts, and database design.

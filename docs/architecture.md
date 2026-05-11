@@ -24,7 +24,7 @@ flowchart LR
 - React
 - Vite
 - Tailwind CSS
-- JavaScript/JSX in the current scaffold
+- TypeScript/TSX
 
 ### Frontend Responsibilities
 
@@ -48,7 +48,7 @@ frontend/
     assets/
 ```
 
-TypeScript can be added before production if the team wants stronger compile-time contracts between frontend API clients and backend DTOs.
+TypeScript is the frontend standard so component props, API clients, and DTO mappings can be checked before runtime.
 
 ## Backend
 

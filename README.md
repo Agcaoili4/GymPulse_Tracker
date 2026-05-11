@@ -26,7 +26,7 @@ Crowd levels are application estimates based on user reports and system logic. T
 
 ## Technology Direction
 
-- Frontend: React, Vite, Tailwind CSS.
+- Frontend: React, Vite, TypeScript, Tailwind CSS.
 - Backend: ASP.NET Core Web API.
 - Database: Microsoft SQL Server, with Entity Framework Core migrations.
 - Authentication: JWT-based authentication with hashed passwords.
