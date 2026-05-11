@@ -1,39 +1,104 @@
-# Functional Requirements
+# Requirements
 
-Core Features:
+GoodLife Pulse Tracker helps users choose when and where to work out by showing Calgary-area GoodLife Fitness clubs with estimated crowd levels.
 
-- Club Discovery
-- Users can search GoodLife clubs in Calgary
-- Users can filter clubs by location
-- Occupancy Monitoring
-- Users can view estimated occupancy levels
-- Occupancy updates in near real-time
-- Crowd Reporting
-- Users can submit crowd status reports:
-  - Empty
-  - Moderate
-  - Busy
-  - Packed
-- Favorites System
-- Authenticated users can save favorite clubs
-- Reviews (Phase 2)
-- Users can submit club reviews and ratings
+This document defines the product requirements that the roadmap, architecture, API design, and database schema must support.
 
-Non-Functional Requirements
+## Product Goals
 
-- Performance
-- API response time under 500ms
-- Occupancy refresh interval under 30 seconds
-- Security
-- JWT authentication
-- Password hashing
-- Input validation
-- Rate limiting (future enhancement)
-- Scalability
-- Modular backend structure
-- Service-oriented architecture
-- Database indexing support
-- Usability
-- Mobile responsive UI
-- Accessible navigation
-- Clean UX for quick occupancy viewing
+- Help users quickly find a nearby GoodLife Fitness club.
+- Make crowd levels easy to understand at a glance.
+- Let users contribute simple crowd reports.
+- Allow authenticated users to save favorite clubs.
+- Keep the system modular enough for real-time updates, reviews, analytics, and notifications in later phases.
+
+## Product Assumptions
+
+- First release focuses on GoodLife Fitness clubs in Calgary.
+- Additional cities can be added later without changing the core data model.
+- Crowd levels are estimates based on user reports and application logic.
+- Crowd levels are not official GoodLife Fitness capacity data unless an official data integration is added later.
+
+## Core Users
+
+- Guest users who want to browse clubs and check crowd levels.
+- Authenticated users who want to submit reports and save favorites.
+- Future administrators who may manage club data, reports, and moderation workflows.
+
+## Functional Requirements
+
+### Club Discovery
+
+- Users can browse GoodLife Fitness clubs in the Calgary area.
+- Users can search clubs by name, address, neighborhood, or city.
+- Users can filter clubs by location attributes such as city, province, and amenities when available.
+- Users can view key club information, including name, address, contact details, coordinates, amenities, and current crowd status.
+
+### Occupancy Monitoring
+
+- Users can view a current estimated crowd level for each club.
+- Supported crowd levels are Empty, Moderate, Busy, and Packed.
+- Occupancy data should show when it was last updated.
+- Occupancy estimates should be refreshed from recent crowd reports.
+- The target refresh interval for visible occupancy data is under 30 seconds once real-time infrastructure is implemented.
+
+### Crowd Reporting
+
+- Authenticated users can submit crowd reports for a club.
+- Each report records the club, user, crowd level, optional note, and timestamp.
+- Reports should be validated before storage.
+- The API should prevent obviously abusive submission patterns through validation first and rate limiting in a later phase.
+
+### Favorites
+
+- Authenticated users can save clubs as favorites.
+- Authenticated users can remove clubs from favorites.
+- Authenticated users can view their favorite clubs with current crowd status.
+- A user cannot favorite the same club more than once.
+
+### Authentication
+
+- Users can register with email and password.
+- Users can sign in and receive a JWT.
+- Passwords must be hashed before storage.
+- Protected routes require a valid JWT.
+
+### Reviews And Ratings
+
+- Reviews and ratings are not part of the first production slice.
+- Later phases may allow authenticated users to submit ratings, comments, and review history for clubs.
+
+## Non-Functional Requirements
+
+### Performance
+
+- API responses should complete in under 500 ms for common read endpoints under normal load.
+- Club search and favorite lookups should use indexed fields.
+- Occupancy reads should avoid expensive aggregation on every request when traffic grows.
+
+### Security
+
+- Passwords must never be stored in plain text.
+- JWT signing secrets must be stored outside source control.
+- API inputs must be validated.
+- User-scoped operations must verify ownership.
+- Future production deployment should include rate limiting and structured audit logging for sensitive actions.
+
+### Reliability
+
+- The API should return consistent error responses.
+- The database schema should enforce required relationships with foreign keys.
+- Seed data should allow the app to run in local development without manual setup.
+
+### Usability
+
+- The frontend must be responsive for mobile and desktop.
+- Crowd status should be visually scannable.
+- Navigation should be accessible by keyboard.
+- Empty, loading, and error states should be clear and recoverable.
+
+### Maintainability
+
+- Backend code should be organized by responsibility: controllers, services, data access, models, and DTOs.
+- Frontend code should use reusable components and API service modules.
+- Documentation must stay aligned across product scope, API contracts, and database design.

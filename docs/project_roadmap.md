@@ -1,170 +1,205 @@
-# Development Roadmap
+# Project Roadmap
 
-The development roadmap defines the planned milestones,
-deliverables, and implementation phases for the GoodLife
-Pulse Tracker project. The roadmap is structured to
-support iterative development while maintaining clear
-separation between planning, design, backend systems,
-frontend implementation, and deployment.
+This roadmap defines the implementation path for GoodLife Pulse Tracker. It keeps documentation, product scope, backend services, database design, frontend work, and deployment aligned across phases.
 
----
+## Product Direction
 
-# Phase 1 — Project Documentation & Requirements
+GoodLife Pulse Tracker helps users find GoodLife Fitness clubs in the Calgary area and check estimated crowd levels before visiting.
 
-## Objectives
+The first release focuses on:
 
-Establish project scope, business requirements,
-technical constraints, and implementation direction.
+- Calgary club discovery.
+- Current crowd status visibility.
+- User-submitted crowd reports.
+- Authenticated favorites.
+- A stable API and database foundation.
 
-## Deliverables
+Reviews, analytics, prediction, push notifications, and admin tooling are later enhancements.
 
-- Functional Requirements Documentation
-- Non-Functional Requirements Documentation
-- Initial API Design Specification
-- Development Roadmap
-- Technology Stack Selection
+## Phase 1: Product Documentation And Planning
 
-## Status
+Status: In progress
 
-Current Phase
+### Objectives
 
----
+- Define the product scope.
+- Align functional and non-functional requirements.
+- Establish the architecture, API contract, and database model.
+- Confirm the technology stack and implementation order.
 
-# Phase 2 — UX/UI Design & User Flow Planning
+### Deliverables
 
-## Objectives
+- Requirements document.
+- Architecture document.
+- API design document.
+- Database schema document.
+- Project roadmap.
+- Initial frontend scaffold.
 
-Design the user experience and establish frontend
-interaction flows before implementation begins.
+### Exit Criteria
 
-## Deliverables
+- Documents use consistent product names, features, entities, and phases.
+- First-release features are separated from future enhancements.
+- Backend and database implementation can begin without unresolved product ambiguity.
 
-- User flow diagrams
-- Wireframes
-- High-fidelity UI mockups
-- Responsive mobile-first layouts
-- Design system and component planning
+## Phase 2: UX/UI Design And User Flows
 
-## Tools
+### Objectives
 
-- Figma
-- Adobe Creative Suite
+- Design the main user experience before deeper frontend implementation.
+- Keep the interface optimized for quick mobile use.
 
----
+### Deliverables
 
-# Phase 3 — System Architecture & Database Design
+- User flow diagrams.
+- Wireframes for club discovery, club detail, report submission, login, signup, and favorites.
+- Responsive layout plan.
+- Design tokens for color, spacing, typography, and crowd-status states.
+- Accessibility notes for navigation, forms, and status labels.
 
-## Objectives
+### Exit Criteria
 
-Define the application's backend structure,
-service communication, database relationships,
-and deployment strategy.
+- Core screens are designed for mobile and desktop.
+- Crowd levels are visually distinct and accessible.
+- Empty, loading, and error states are defined.
 
-## Deliverables
+## Phase 3: Backend Foundation
 
-- System architecture diagrams
-- Database schema
-- Entity relationship diagrams (ERD)
-- API communication flow
-- Authentication strategy
-- Environment configuration planning
+### Objectives
 
----
+- Build the ASP.NET Core Web API foundation.
+- Prepare the backend for authentication, persistence, and feature modules.
 
-# Phase 4 — Backend Development
+### Deliverables
 
-## Objectives
+- ASP.NET Core Web API project.
+- Configuration management.
+- Controller, service, DTO, and data-layer structure.
+- Global error handling.
+- Request validation approach.
+- Swagger/OpenAPI setup.
 
-Develop the ASP.NET Core backend services
-and REST API infrastructure.
+### Exit Criteria
 
-## Deliverables
+- API can run locally.
+- Health endpoint is available.
+- Project structure matches the architecture document.
 
-- ASP.NET Core Web API setup
-- Entity Framework Core integration
-- SQL Server integration
-- Authentication services
-- API endpoints
-- Validation and middleware layers
+## Phase 4: Database Integration
 
-## Core Features
+### Objectives
 
-- Club discovery API
-- Occupancy monitoring API
-- Crowd reporting API
-- Favorites system API
+- Implement SQL Server persistence using Entity Framework Core.
+- Support the first-release data model.
 
----
+### Deliverables
 
-# Phase 5 — Frontend Development
+- SQL Server Docker setup.
+- Entity Framework Core models and DbContext.
+- Initial migration.
+- Seed data for Calgary clubs, amenities, and occupancy snapshots.
+- Indexes and constraints from the database schema.
 
-## Objectives
+### Exit Criteria
 
-Build the responsive React frontend and integrate
-backend API services.
+- Local database starts consistently.
+- Migrations apply from a clean database.
+- Seed data supports frontend and API development.
 
-## Deliverables
+## Phase 5: Core API Features
 
-- React + Vite frontend setup
-- TailwindCSS integration
-- Responsive UI implementation
-- API integration
-- State management
-- Error handling
-- Accessibility improvements
+### Objectives
 
-## Core Features
+- Implement first-release API endpoints.
+- Make the backend usable by the frontend.
 
-- Club search interface
-- Occupancy dashboard
-- Crowd reporting system
-- Favorites management
+### Deliverables
 
----
+- Auth endpoints: register, login, current user.
+- Club endpoints: list, search, detail.
+- Occupancy endpoint: current club occupancy.
+- Crowd report endpoints: create and list recent reports.
+- Favorite endpoints: list, add, remove.
+- Consistent error responses and status codes.
 
-# Phase 6 — Database Integration & Realtime Systems
+### Exit Criteria
 
-## Objectives
+- API behavior matches `docs/api-design.md`.
+- Protected endpoints require JWT authentication.
+- Basic integration tests cover the main success and failure paths.
 
-Implement persistent data storage and realtime
-communication systems.
+## Phase 6: Frontend Implementation
 
-## Deliverables
+### Objectives
 
-- SQL Server Docker environment
-- Database migrations
-- Seed data
-- SignalR realtime updates
-- Occupancy synchronization
+- Build the responsive React frontend and connect it to the API.
 
----
+### Deliverables
 
-# Phase 7 — Testing, DevOps & Deployment
+- Club search and list experience.
+- Club detail screen.
+- Crowd status display.
+- Crowd report form.
+- Login and signup screens.
+- Favorites view and favorite toggle.
+- API service layer.
+- Loading, empty, and error states.
 
-## Objectives
+### Exit Criteria
 
-Prepare the application for deployment through
-testing, automation, and cloud infrastructure setup.
+- Frontend can run locally with `npm run dev` or `npm start`.
+- Users can complete the first-release workflows through the UI.
+- The UI is responsive and keyboard accessible for core flows.
 
-## Deliverables
+## Phase 7: Real-Time Occupancy
 
-- Unit testing
-- Integration testing
-- GitHub Actions CI/CD pipeline
-- Environment configurations
-- Azure deployment
-- Monitoring and logging setup
+### Objectives
 
----
+- Improve occupancy freshness after the core API is stable.
 
-# Phase 8 — Future Enhancements
+### Deliverables
 
-## Potential Features
+- SignalR hub for occupancy updates.
+- Backend event flow after new crowd reports.
+- Frontend subscription to occupancy updates.
+- Fallback polling strategy.
 
-- User reviews and ratings
-- Real-time occupancy analytics
-- AI occupancy prediction
-- Push notifications
-- Club recommendation system
-- Rate limiting and API throttling
-- Administrative dashboard
+### Exit Criteria
+
+- Crowd updates appear in connected clients without a full page refresh.
+- Polling fallback still works if the real-time connection fails.
+
+## Phase 8: Testing, DevOps, And Deployment
+
+### Objectives
+
+- Prepare the application for reliable deployment.
+
+### Deliverables
+
+- Unit tests for services and validation.
+- Integration tests for API endpoints.
+- Frontend tests for critical UI flows.
+- GitHub Actions CI workflow.
+- Environment configuration for local and production.
+- Azure deployment plan.
+- Logging and monitoring setup.
+
+### Exit Criteria
+
+- CI runs build and tests.
+- Deployment process is documented.
+- Production secrets are not stored in source control.
+
+## Phase 9: Future Enhancements
+
+Potential enhancements after the first production slice:
+
+- User reviews and ratings.
+- Occupancy analytics.
+- AI occupancy prediction.
+- Push notifications.
+- Club recommendation system.
+- Rate limiting and API throttling.
+- Administrative dashboard.
+- Moderation workflow for user-submitted content.
