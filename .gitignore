@@ -1,0 +1,5 @@
+# gitignore makes sure that certain files and directories are not tracked by Git and be pushed to the repository.
+
+.env
+node_modules/
+dist/
