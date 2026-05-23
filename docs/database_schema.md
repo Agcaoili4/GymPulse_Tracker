@@ -8,18 +8,16 @@ Reviews are shown as a planned future entity. The first release can ship without
 
 ## Entity Relationship Overview
 
-```mermaid
 erDiagram
-    Users ||--o{ CrowdReports : submits
-    Users ||--o{ Favorites : saves
-    Users ||--o{ Reviews : writes_later
-    Clubs ||--o{ CrowdReports : receives
-    Clubs ||--o| OccupancySnapshots : has
-    Clubs ||--o{ Favorites : saved_as
-    Clubs ||--o{ Reviews : receives_later
-    Clubs ||--o{ ClubAmenities : maps
-    Amenities ||--o{ ClubAmenities : maps
-```
+Users ||--o{ CrowdReports : submits
+Users ||--o{ Favorites : saves
+Users ||--o{ Reviews : writes_later
+Clubs ||--o{ CrowdReports : receives
+Clubs ||--o| OccupancySnapshots : has
+Clubs ||--o{ Favorites : saved_as
+Clubs ||--o{ Reviews : receives_later
+Clubs ||--o{ ClubAmenities : maps
+Amenities ||--o{ ClubAmenities : maps
 
 ## Tables
 
@@ -27,15 +25,15 @@ erDiagram
 
 Stores registered application users.
 
-| Column | Type | Required | Notes |
-| --- | --- | --- | --- |
-| Id | int | Yes | Primary key, identity |
-| DisplayName | nvarchar(100) | Yes | Public display name |
-| Email | nvarchar(255) | Yes | Unique, normalized for lookup |
-| PasswordHash | nvarchar(max) | Yes | Hashed password only |
-| Role | nvarchar(50) | Yes | Default `User`; future `Admin` |
-| CreatedAt | datetime2 | Yes | UTC |
-| UpdatedAt | datetime2 | No | UTC |
+| Column       | Type          | Required | Notes                          |
+| ------------ | ------------- | -------- | ------------------------------ |
+| Id           | int           | Yes      | Primary key, identity          |
+| DisplayName  | nvarchar(100) | Yes      | Public display name            |
+| Email        | nvarchar(255) | Yes      | Unique, normalized for lookup  |
+| PasswordHash | nvarchar(max) | Yes      | Hashed password only           |
+| Role         | nvarchar(50)  | Yes      | Default `User`; future `Admin` |
+| CreatedAt    | datetime2     | Yes      | UTC                            |
+| UpdatedAt    | datetime2     | No       | UTC                            |
 
 Indexes:
 
@@ -45,21 +43,21 @@ Indexes:
 
 Stores GoodLife Fitness club locations.
 
-| Column | Type | Required | Notes |
-| --- | --- | --- | --- |
-| Id | int | Yes | Primary key, identity |
-| Name | nvarchar(200) | Yes | Club name |
-| AddressLine1 | nvarchar(200) | Yes | Street address |
-| AddressLine2 | nvarchar(200) | No | Unit or additional address details |
-| City | nvarchar(100) | Yes | First release focuses on Calgary |
-| Province | nvarchar(50) | Yes | Example: `AB` |
-| PostalCode | nvarchar(20) | No | Canadian postal code |
-| PhoneNumber | nvarchar(30) | No | Club phone number |
-| Latitude | decimal(9,6) | No | Used for map and distance features |
-| Longitude | decimal(9,6) | No | Used for map and distance features |
-| IsActive | bit | Yes | Hides closed or unsupported clubs |
-| CreatedAt | datetime2 | Yes | UTC |
-| UpdatedAt | datetime2 | No | UTC |
+| Column       | Type          | Required | Notes                              |
+| ------------ | ------------- | -------- | ---------------------------------- |
+| Id           | int           | Yes      | Primary key, identity              |
+| Name         | nvarchar(200) | Yes      | Club name                          |
+| AddressLine1 | nvarchar(200) | Yes      | Street address                     |
+| AddressLine2 | nvarchar(200) | No       | Unit or additional address details |
+| City         | nvarchar(100) | Yes      | First release focuses on Calgary   |
+| Province     | nvarchar(50)  | Yes      | Example: `AB`                      |
+| PostalCode   | nvarchar(20)  | No       | Canadian postal code               |
+| PhoneNumber  | nvarchar(30)  | No       | Club phone number                  |
+| Latitude     | decimal(9,6)  | No       | Used for map and distance features |
+| Longitude    | decimal(9,6)  | No       | Used for map and distance features |
+| IsActive     | bit           | Yes      | Hides closed or unsupported clubs  |
+| CreatedAt    | datetime2     | Yes      | UTC                                |
+| UpdatedAt    | datetime2     | No       | UTC                                |
 
 Indexes:
 
@@ -72,10 +70,10 @@ Indexes:
 
 Stores reusable amenity names.
 
-| Column | Type | Required | Notes |
-| --- | --- | --- | --- |
-| Id | int | Yes | Primary key, identity |
-| Name | nvarchar(100) | Yes | Example: `Weights`, `Cardio`, `Group Fitness` |
+| Column | Type          | Required | Notes                                         |
+| ------ | ------------- | -------- | --------------------------------------------- |
+| Id     | int           | Yes      | Primary key, identity                         |
+| Name   | nvarchar(100) | Yes      | Example: `Weights`, `Cardio`, `Group Fitness` |
 
 Indexes:
 
@@ -85,10 +83,10 @@ Indexes:
 
 Join table between clubs and amenities.
 
-| Column | Type | Required | Notes |
-| --- | --- | --- | --- |
-| ClubId | int | Yes | Foreign key to `Clubs.Id` |
-| AmenityId | int | Yes | Foreign key to `Amenities.Id` |
+| Column    | Type | Required | Notes                         |
+| --------- | ---- | -------- | ----------------------------- |
+| ClubId    | int  | Yes      | Foreign key to `Clubs.Id`     |
+| AmenityId | int  | Yes      | Foreign key to `Amenities.Id` |
 
 Constraints:
 
@@ -98,14 +96,14 @@ Constraints:
 
 Stores the current crowd estimate for each club. This table supports fast read endpoints without recalculating recent reports on every request.
 
-| Column | Type | Required | Notes |
-| --- | --- | --- | --- |
-| Id | int | Yes | Primary key, identity |
-| ClubId | int | Yes | Foreign key to `Clubs.Id`; unique |
-| CrowdLevel | nvarchar(20) | Yes | `Empty`, `Moderate`, `Busy`, or `Packed` |
-| ConfidenceScore | decimal(4,3) | No | Range `0.000` to `1.000` |
-| ReportCountWindow | int | Yes | Number of recent reports used |
-| LastUpdatedAt | datetime2 | Yes | UTC |
+| Column            | Type         | Required | Notes                                    |
+| ----------------- | ------------ | -------- | ---------------------------------------- |
+| Id                | int          | Yes      | Primary key, identity                    |
+| ClubId            | int          | Yes      | Foreign key to `Clubs.Id`; unique        |
+| CrowdLevel        | nvarchar(20) | Yes      | `Empty`, `Moderate`, `Busy`, or `Packed` |
+| ConfidenceScore   | decimal(4,3) | No       | Range `0.000` to `1.000`                 |
+| ReportCountWindow | int          | Yes      | Number of recent reports used            |
+| LastUpdatedAt     | datetime2    | Yes      | UTC                                      |
 
 Indexes:
 
@@ -117,14 +115,14 @@ Indexes:
 
 Stores user-submitted crowd reports.
 
-| Column | Type | Required | Notes |
-| --- | --- | --- | --- |
-| Id | int | Yes | Primary key, identity |
-| ClubId | int | Yes | Foreign key to `Clubs.Id` |
-| UserId | int | Yes | Foreign key to `Users.Id` |
-| CrowdLevel | nvarchar(20) | Yes | `Empty`, `Moderate`, `Busy`, or `Packed` |
-| Note | nvarchar(500) | No | Optional user note |
-| ReportedAt | datetime2 | Yes | UTC |
+| Column     | Type          | Required | Notes                                    |
+| ---------- | ------------- | -------- | ---------------------------------------- |
+| Id         | int           | Yes      | Primary key, identity                    |
+| ClubId     | int           | Yes      | Foreign key to `Clubs.Id`                |
+| UserId     | int           | Yes      | Foreign key to `Users.Id`                |
+| CrowdLevel | nvarchar(20)  | Yes      | `Empty`, `Moderate`, `Busy`, or `Packed` |
+| Note       | nvarchar(500) | No       | Optional user note                       |
+| ReportedAt | datetime2     | Yes      | UTC                                      |
 
 Indexes:
 
@@ -135,12 +133,12 @@ Indexes:
 
 Stores saved clubs for authenticated users.
 
-| Column | Type | Required | Notes |
-| --- | --- | --- | --- |
-| Id | int | Yes | Primary key, identity |
-| UserId | int | Yes | Foreign key to `Users.Id` |
-| ClubId | int | Yes | Foreign key to `Clubs.Id` |
-| CreatedAt | datetime2 | Yes | UTC |
+| Column    | Type      | Required | Notes                     |
+| --------- | --------- | -------- | ------------------------- |
+| Id        | int       | Yes      | Primary key, identity     |
+| UserId    | int       | Yes      | Foreign key to `Users.Id` |
+| ClubId    | int       | Yes      | Foreign key to `Clubs.Id` |
+| CreatedAt | datetime2 | Yes      | UTC                       |
 
 Constraints:
 
@@ -155,15 +153,15 @@ Indexes:
 
 Reviews are planned for a later phase. The table can be introduced when the feature is implemented.
 
-| Column | Type | Required | Notes |
-| --- | --- | --- | --- |
-| Id | int | Yes | Primary key, identity |
-| UserId | int | Yes | Foreign key to `Users.Id` |
-| ClubId | int | Yes | Foreign key to `Clubs.Id` |
-| Rating | int | Yes | Range `1` to `5` |
-| Comment | nvarchar(1000) | No | Review text |
-| CreatedAt | datetime2 | Yes | UTC |
-| UpdatedAt | datetime2 | No | UTC |
+| Column    | Type           | Required | Notes                     |
+| --------- | -------------- | -------- | ------------------------- |
+| Id        | int            | Yes      | Primary key, identity     |
+| UserId    | int            | Yes      | Foreign key to `Users.Id` |
+| ClubId    | int            | Yes      | Foreign key to `Clubs.Id` |
+| Rating    | int            | Yes      | Range `1` to `5`          |
+| Comment   | nvarchar(1000) | No       | Review text               |
+| CreatedAt | datetime2      | Yes      | UTC                       |
+| UpdatedAt | datetime2      | No       | UTC                       |
 
 Constraints:
 

@@ -1,7 +1,100 @@
-# gitignore makes sure that certain files and directories are not tracked by Git and be pushed to the repository.
+# GoodLife Pulse Tracker
+# Keep generated files, local secrets, and machine-specific settings out of Git.
 
+# Environment variables and local secrets
 .env
+.env.*
+!.env.example
+*.local
+*.secret
+*secret*.json
+secrets.json
+appsettings.Local.json
+appsettings.*.Local.json
+appsettings.*.local.json
+appsettings.Production.json
+appsettings.Staging.json
+
+# Certificates, keys, and signing material
+*.pfx
+*.p12
+*.pem
+*.key
+*.crt
+*.cer
+*.csr
+*.jks
+*.keystore
+*.mobileprovision
+*.publishsettings
+
+# ASP.NET Core and .NET generated files
+bin/
+obj/
+TestResults/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+*.nupkg
+*.snupkg
+*.symbols.nupkg
+*.coverage
+*.coveragexml
+coverage/
+coveragereport/
+
+# NuGet and local package caches
+packages/
+.nuget/
+
+# Frontend dependencies and build outputs
 node_modules/
 dist/
-prompt/
+dist-ssr/
+build/
+.vite/
+.turbo/
+.next/
+out/
+
+# Logs and diagnostics
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.stackdump
+crash-report.*
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor and IDE state
+.vs/
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.sw?
+
+# Local database and generated data files
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.bak
+*.dump
+
+# Local Docker overrides
+docker-compose.override.yml
+docker-compose.*.override.yml
+
+# Project-local private assistant instructions and prompts
 CLAUDE.md
+prompt/
