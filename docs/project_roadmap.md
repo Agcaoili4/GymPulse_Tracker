@@ -194,7 +194,7 @@ Status: In progress
 
 ## Phase 9: Future Enhancements
 
-Potential enhancements after the first production slice:
+Potential enhancements after the first release:
 
 - User reviews and ratings.
 - Occupancy analytics.

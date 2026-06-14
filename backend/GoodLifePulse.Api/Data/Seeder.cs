@@ -74,6 +74,7 @@ public static class Seeder
         return changed;
     }
 
+    // Compares the current value with the new value, udpates the value if it has changed
     private static bool SetIfChanged<T>(T currentValue, T newValue, Action<T> setValue)
     {
         if (EqualityComparer<T>.Default.Equals(currentValue, newValue))

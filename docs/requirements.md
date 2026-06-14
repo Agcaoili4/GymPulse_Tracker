@@ -65,7 +65,7 @@ This document defines the product requirements that the roadmap, architecture, A
 
 ### Reviews And Ratings
 
-- Reviews and ratings are not part of the first production slice.
+- Reviews and ratings are not part of the first release.
 - Later phases may allow authenticated users to submit ratings, comments, and review history for clubs.
 
 ## Non-Functional Requirements

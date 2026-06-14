@@ -151,12 +151,12 @@ Returns clubs with current occupancy information.
 
 Query parameters:
 
-- `search`: optional text search by name, address, neighborhood, or city.
+- `search`: optional text search by name, address line 1, or city.
 - `city`: optional city filter.
 - `province`: optional province filter.
-- `amenity`: optional amenity filter.
+- `amenity`: optional amenity filter. Planned for a later phase.
 - `page`: optional page number, default `1`.
-- `pageSize`: optional page size, default `20`.
+- `pageSize`: optional page size, default `20`, capped at `100`.
 
 Success response:
 
@@ -167,17 +167,13 @@ Success response:
       "id": 1,
       "name": "GoodLife Fitness Calgary Stephen Avenue",
       "addressLine1": "140 8 Ave SW",
+      "addressLine2": null,
       "city": "Calgary",
       "province": "AB",
       "postalCode": "T2P 1B3",
+      "phoneNumber": "(587) 538-1900",
       "latitude": 51.0451,
-      "longitude": -114.0659,
-      "amenities": ["Weights", "Cardio", "Group Fitness"],
-      "occupancy": {
-        "crowdLevel": "Moderate",
-        "lastUpdatedAt": "2026-05-10T18:30:00Z",
-        "confidenceScore": 0.75
-      }
+      "longitude": -114.0659
     }
   ],
   "page": 1,
@@ -185,6 +181,11 @@ Success response:
   "totalCount": 1
 }
 ```
+
+Fields planned for later phases (non-breaking additions):
+
+- `amenities: string[]`: added with the amenities feature.
+- `occupancy: { crowdLevel, lastUpdatedAt, confidenceScore }`: added with the occupancy feature.
 
 #### GET `/api/clubs/{clubId}`
 
@@ -201,17 +202,15 @@ Success response:
   "city": "Calgary",
   "province": "AB",
   "postalCode": "T2P 1B3",
-  "phoneNumber": "403-000-0000",
+  "phoneNumber": "(587) 538-1900",
   "latitude": 51.0451,
-  "longitude": -114.0659,
-  "amenities": ["Weights", "Cardio", "Group Fitness"],
-  "occupancy": {
-    "crowdLevel": "Moderate",
-    "lastUpdatedAt": "2026-05-10T18:30:00Z",
-    "confidenceScore": 0.75
-  }
+  "longitude": -114.0659
 }
 ```
+
+Planned fields for later phases: same as `GET /api/clubs` above (`amenities`, `occupancy`).
+
+Inactive clubs (`IsActive = false`) are excluded from both list and detail responses.
 
 ### Occupancy
 
