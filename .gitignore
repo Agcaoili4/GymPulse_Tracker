@@ -98,3 +98,4 @@ docker-compose.*.override.yml
 # Project-local private assistant instructions and prompts
 CLAUDE.md
 prompt/
+superpowers

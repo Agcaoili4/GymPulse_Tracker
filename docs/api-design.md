@@ -1,6 +1,6 @@
 # API Design
 
-The GoodLife Pulse Tracker API is an ASP.NET Core REST API used by the React frontend. It provides club discovery, occupancy visibility, crowd reporting, authentication, and favorites.
+The GymPulse API is an ASP.NET Core REST API used by the React frontend. It provides gym discovery, occupancy visibility, crowd reporting, authentication, and favorites.
 
 ## API Principles
 
@@ -152,6 +152,7 @@ Returns clubs with current occupancy information.
 Query parameters:
 
 - `search`: optional text search by name, address line 1, or city.
+- `brand`: optional brand filter, for example `Anytime Fitness`.
 - `city`: optional city filter.
 - `province`: optional province filter.
 - `amenity`: optional amenity filter. Planned for a later phase.
@@ -165,7 +166,8 @@ Success response:
   "items": [
     {
       "id": 1,
-      "name": "GoodLife Fitness Calgary Stephen Avenue",
+      "name": "Anytime Fitness Beltline",
+      "brand": "Anytime Fitness",
       "addressLine1": "140 8 Ave SW",
       "addressLine2": null,
       "city": "Calgary",
@@ -173,7 +175,14 @@ Success response:
       "postalCode": "T2P 1B3",
       "phoneNumber": "(587) 538-1900",
       "latitude": 51.0451,
-      "longitude": -114.0659
+      "longitude": -114.0659,
+      "occupancy": {
+        "crowdLevel": "Moderate",
+        "percent": 55,
+        "isEstimated": true,
+        "source": "simulated",
+        "lastUpdatedAt": "2026-06-27T18:30:00Z"
+      }
     }
   ],
   "page": 1,
@@ -182,10 +191,11 @@ Success response:
 }
 ```
 
-Fields planned for later phases (non-breaking additions):
+The `occupancy` block is included now and is served by the simulated occupancy engine. The `isEstimated` and `source` fields make clear the value is an estimate, not official capacity data.
+
+Field planned for a later phase (non-breaking addition):
 
 - `amenities: string[]`: added with the amenities feature.
-- `occupancy: { crowdLevel, lastUpdatedAt, confidenceScore }`: added with the occupancy feature.
 
 #### GET `/api/clubs/{clubId}`
 
@@ -196,7 +206,8 @@ Success response:
 ```json
 {
   "id": 1,
-  "name": "GoodLife Fitness Calgary Stephen Avenue",
+  "name": "Anytime Fitness Beltline",
+  "brand": "Anytime Fitness",
   "addressLine1": "140 8 Ave SW",
   "addressLine2": null,
   "city": "Calgary",
@@ -204,11 +215,18 @@ Success response:
   "postalCode": "T2P 1B3",
   "phoneNumber": "(587) 538-1900",
   "latitude": 51.0451,
-  "longitude": -114.0659
+  "longitude": -114.0659,
+  "occupancy": {
+    "crowdLevel": "Moderate",
+    "percent": 55,
+    "isEstimated": true,
+    "source": "simulated",
+    "lastUpdatedAt": "2026-06-27T18:30:00Z"
+  }
 }
 ```
 
-Planned fields for later phases: same as `GET /api/clubs` above (`amenities`, `occupancy`).
+The `occupancy` block is included as shown above. The `amenities` array is planned for a later phase.
 
 Inactive clubs (`IsActive = false`) are excluded from both list and detail responses.
 
@@ -216,7 +234,7 @@ Inactive clubs (`IsActive = false`) are excluded from both list and detail respo
 
 #### GET `/api/clubs/{clubId}/occupancy`
 
-Returns the current occupancy snapshot for a club.
+Returns the current occupancy estimate for a club. Used by the detail view and as the polling fallback for real-time updates.
 
 Success response:
 
@@ -224,11 +242,16 @@ Success response:
 {
   "clubId": 1,
   "crowdLevel": "Moderate",
-  "lastUpdatedAt": "2026-05-10T18:30:00Z",
-  "confidenceScore": 0.75,
-  "reportCountWindow": 8
+  "percent": 55,
+  "isEstimated": true,
+  "source": "simulated",
+  "lastUpdatedAt": "2026-06-27T18:30:00Z"
 }
 ```
+
+### Real-Time Updates
+
+Live occupancy is delivered over a SignalR hub at `/hubs/occupancy`. When the simulated engine changes a gym's level, it broadcasts an `occupancyUpdated` event carrying the gym ID, crowd level, percent, estimated flag, source, and timestamp. Clients that cannot hold a socket fall back to polling `GET /api/clubs/{clubId}/occupancy`.
 
 ### Crowd Reports
 
@@ -300,7 +323,7 @@ Success response:
     {
       "id": 1,
       "clubId": 1,
-      "clubName": "GoodLife Fitness Calgary Stephen Avenue",
+      "clubName": "Anytime Fitness Beltline",
       "city": "Calgary",
       "province": "AB",
       "occupancy": {

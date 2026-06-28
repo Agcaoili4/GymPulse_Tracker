@@ -1,6 +1,6 @@
 # Architecture
 
-GoodLife Pulse Tracker uses a React frontend, an ASP.NET Core Web API, and a SQL Server database. The architecture is designed to support a simple first release while leaving clear extension points for real-time updates, analytics, reviews, notifications, and administration.
+GymPulse uses a React frontend, an ASP.NET Core Web API, and a SQL Server database. The architecture supports a simple first release while leaving clear extension points for analytics, reviews, notifications, and administration. Live crowd updates are part of the first build rather than a later extension point.
 
 ## System Overview
 
@@ -13,8 +13,10 @@ flowchart LR
     API --> OccupancyService[Occupancy Service]
     API --> FavoriteService[Favorite Service]
     API --> Db[(SQL Server)]
-    API -. future .-> SignalR[SignalR Hub]
-    SignalR -. future .-> Frontend
+    OsmImporter[OpenStreetMap Importer] --> Db
+    Simulator[Occupancy Simulator] --> OccupancyService
+    OccupancyService --> SignalR[SignalR Hub]
+    SignalR --> Frontend
 ```
 
 ## Frontend
@@ -88,7 +90,7 @@ backend/
 
 1. The frontend requests clubs from `GET /api/clubs`.
 2. The API applies search and filter parameters.
-3. The API reads clubs and current occupancy snapshots from SQL Server.
+3. The API reads gyms from SQL Server and the current crowd level from the occupancy engine.
 4. The frontend renders the results with crowd status labels.
 
 ### Crowd Reporting
@@ -106,24 +108,27 @@ backend/
 3. The database enforces one favorite per user and club.
 4. The frontend can retrieve favorites from `GET /api/favorites`.
 
-## Real-Time Strategy
+## Occupancy And Real-Time Strategy
 
-The first implementation can use polling from the frontend. SignalR should be introduced when the backend and occupancy model are stable.
+Current crowd levels come from a simulated occupancy engine. A background service recalculates each gym's level on a schedule from a typical weekly gym pattern plus small variation, holds the latest value in memory, and broadcasts changes over SignalR. The frontend subscribes and updates without a page refresh, and falls back to polling the occupancy endpoint if the connection drops.
 
-Real-time updates should publish:
+Occupancy values sit behind a single source interface, so community reports or a paid foot-traffic API can replace the simulated engine later without changing the API or the frontend.
 
-- Club ID
+Real-time updates publish:
+
+- Gym ID
 - Current crowd level
 - Last updated timestamp
-- Optional confidence score
+- A flag marking the value as estimated, and its source
 
 ## Deployment Direction
 
 - Local database: SQL Server running in Docker.
-- Backend deployment: Azure App Service or equivalent.
-- Frontend deployment: Azure Static Web Apps, Vercel, or another static hosting platform.
+- Hosting target: free tiers, since this is a portfolio project with no budget.
+- Frontend deployment: a free static hosting platform such as Vercel or Netlify.
+- Backend deployment: a free application hosting tier. Free SQL Server hosting is limited, so the database host is an open question for the deployment phase.
 - CI/CD: GitHub Actions.
-- Secrets: environment variables or managed cloud secret storage.
+- Secrets: environment variables or managed secret storage.
 
 ## Cross-Document Alignment
 

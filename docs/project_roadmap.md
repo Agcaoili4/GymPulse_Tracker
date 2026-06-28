@@ -1,20 +1,19 @@
 # Project Roadmap
 
-This roadmap defines the implementation path for GoodLife Pulse Tracker. It keeps documentation, product scope, backend services, database design, frontend work, and deployment aligned across phases.
+This roadmap defines the implementation path for GymPulse. It keeps documentation, product scope, backend services, database design, frontend work, and deployment aligned across phases.
 
 ## Product Direction
 
-GoodLife Pulse Tracker helps users find GoodLife Fitness clubs in the Calgary area and check estimated crowd levels before visiting.
+GymPulse helps users find gyms across Calgary and the surrounding area, across many brands, and check estimated crowd levels before visiting.
 
 The first release focuses on:
 
-- Calgary club discovery.
-- Current crowd status visibility.
-- User-submitted crowd reports.
-- Authenticated favorites.
+- Gym discovery across Calgary and nearby areas, covering many brands.
+- Live crowd status from a simulated occupancy engine, shown in real time.
+- Saved favorite gyms.
 - A stable API and database foundation.
 
-Reviews, analytics, prediction, push notifications, and admin tooling are later enhancements.
+User accounts, user-submitted crowd reports, reviews, analytics, prediction, push notifications, and admin tooling are later enhancements. The simulated engine lets the app show live crowd levels before any users sign up.
 
 ## Phase 1: Product Documentation And Planning
 
@@ -97,7 +96,7 @@ Status: In progress
 - SQL Server Docker setup.
 - Entity Framework Core models and DbContext.
 - Initial migration.
-- Seed data for Calgary clubs, amenities, and occupancy snapshots.
+- Gym records imported once from OpenStreetMap (Overpass API) for Calgary and nearby areas.
 - Indexes and constraints from the database schema.
 
 ### Exit Criteria
@@ -117,7 +116,7 @@ Status: In progress
 
 - Auth endpoints: register, login, current user.
 - Club endpoints: list, search, detail.
-- Occupancy endpoint: current club occupancy.
+- Occupancy endpoint backed by the simulated occupancy engine, returning the current crowd level per gym.
 - Crowd report endpoints: create and list recent reports.
 - Favorite endpoints: list, add, remove.
 - Consistent error responses and status codes.
@@ -156,7 +155,7 @@ Status: In progress
 
 ### Objectives
 
-- Improve occupancy freshness after the core API is stable.
+- Deliver live-updating crowd levels, which are central to this product rather than a later add-on.
 
 ### Deliverables
 

@@ -1,6 +1,6 @@
 # Database Schema
 
-GoodLife Pulse Tracker stores club data, users, crowd reports, current occupancy snapshots, and favorites in SQL Server. It also defines a planned future reviews model.
+GymPulse stores gym data, users, crowd reports, current occupancy values, and favorites in SQL Server. It also defines a planned future reviews model.
 
 The schema is designed for Entity Framework Core migrations and should enforce relationships through foreign keys and unique constraints.
 
@@ -41,29 +41,33 @@ Indexes:
 
 ### Clubs
 
-Stores GoodLife Fitness club locations.
+Stores gym locations across many brands.
 
-| Column       | Type          | Required | Notes                              |
-| ------------ | ------------- | -------- | ---------------------------------- |
-| Id           | int           | Yes      | Primary key, identity              |
-| Name         | nvarchar(200) | Yes      | Club name                          |
-| AddressLine1 | nvarchar(200) | Yes      | Street address                     |
-| AddressLine2 | nvarchar(200) | No       | Unit or additional address details |
-| City         | nvarchar(100) | Yes      | First release focuses on Calgary   |
-| Province     | nvarchar(50)  | Yes      | Example: `AB`                      |
-| PostalCode   | nvarchar(20)  | No       | Canadian postal code               |
-| PhoneNumber  | nvarchar(30)  | No       | Club phone number                  |
-| Latitude     | decimal(9,6)  | No       | Used for map and distance features |
-| Longitude    | decimal(9,6)  | No       | Used for map and distance features |
-| IsActive     | bit           | Yes      | Hides closed or unsupported clubs  |
-| CreatedAt    | datetime2     | Yes      | UTC                                |
-| UpdatedAt    | datetime2     | No       | UTC                                |
+| Column       | Type          | Required | Notes                                            |
+| ------------ | ------------- | -------- | ------------------------------------------------ |
+| Id           | int           | Yes      | Primary key, identity                            |
+| Name         | nvarchar(200) | Yes      | Gym name                                         |
+| Brand        | nvarchar(100) | No       | Gym brand, for example `Anytime Fitness`         |
+| OsmId        | bigint        | No       | OpenStreetMap node or way id; used for import    |
+| AddressLine1 | nvarchar(200) | Yes      | Street address                                   |
+| AddressLine2 | nvarchar(200) | No       | Unit or additional address details              |
+| City         | nvarchar(100) | Yes      | First release focuses on the Calgary area        |
+| Province     | nvarchar(50)  | Yes      | Example: `AB`                                    |
+| PostalCode   | nvarchar(20)  | No       | Canadian postal code                             |
+| PhoneNumber  | nvarchar(30)  | No       | Gym phone number                                 |
+| Latitude     | decimal(9,6)  | No       | Used for map and distance features               |
+| Longitude    | decimal(9,6)  | No       | Used for map and distance features               |
+| IsActive     | bit           | Yes      | Hides closed or unsupported gyms                 |
+| CreatedAt    | datetime2     | Yes      | UTC                                              |
+| UpdatedAt    | datetime2     | No       | UTC                                              |
 
 Indexes:
 
 - Index on `City`.
 - Index on `Province`.
+- Index on `Brand`.
 - Index on `IsActive`.
+- Unique index on `OsmId` so repeated imports update a gym rather than duplicate it.
 - Optional composite index on `City`, `Province`, and `IsActive`.
 
 ### Amenities
@@ -94,7 +98,7 @@ Constraints:
 
 ### OccupancySnapshots
 
-Stores the current crowd estimate for each club. This table supports fast read endpoints without recalculating recent reports on every request.
+Stores the current crowd estimate for each club. In the current build, occupancy comes from an in-memory simulated engine, so this table is not populated yet. It is intended for the later stage when user reports drive occupancy and a stored estimate is useful for fast reads.
 
 | Column            | Type         | Required | Notes                                    |
 | ----------------- | ------------ | -------- | ---------------------------------------- |
@@ -142,7 +146,7 @@ Stores saved clubs for authenticated users.
 
 Constraints:
 
-- Unique index on `UserId`, `ClubId` so a user cannot save the same club twice.
+- Unique index on `UserId`, `ClubId` so a user cannot save the same gym twice.
 
 Indexes:
 
@@ -185,11 +189,10 @@ The backend should validate accepted values at the DTO and domain-service levels
 
 Local development should include seed data for:
 
-- A small set of Calgary GoodLife Fitness clubs.
-- Common amenities.
-- Club amenity relationships.
-- Optional test user account for local development only.
-- Initial occupancy snapshots for each seeded club.
+- Gyms across Calgary and nearby areas, imported once from OpenStreetMap.
+- A test user account for local development only, added with the authentication stage.
+
+Amenities, club amenity relationships, and stored occupancy snapshots arrive in later stages. In the current build, occupancy is simulated in memory and needs no seed.
 
 Do not seed real user passwords or production credentials.
 
