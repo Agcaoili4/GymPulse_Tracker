@@ -1,12 +1,12 @@
 # Requirements
 
-GoodLife Pulse Tracker helps users choose when and where to work out by showing Calgary-area GoodLife Fitness clubs with estimated crowd levels.
+GymPulse helps users choose when and where to work out by showing gyms across Calgary and the surrounding area, across many brands, with estimated crowd levels.
 
 This document defines the product requirements that the roadmap, architecture, API design, and database schema must support.
 
 ## Product Goals
 
-- Help users quickly find a nearby GoodLife Fitness club.
+- Help users quickly find a nearby gym.
 - Make crowd levels easy to understand at a glance.
 - Let users contribute simple crowd reports.
 - Allow authenticated users to save favorite clubs.
@@ -14,10 +14,11 @@ This document defines the product requirements that the roadmap, architecture, A
 
 ## Product Assumptions
 
-- First release focuses on GoodLife Fitness clubs in Calgary.
+- First release focuses on gyms across Calgary and nearby areas, across many brands.
 - Additional cities can be added later without changing the core data model.
-- Crowd levels are estimates based on user reports and application logic.
-- Crowd levels are not official GoodLife Fitness capacity data unless an official data integration is added later.
+- Gym records are imported from OpenStreetMap, which is free and openly licensed, rather than from a paid data provider.
+- Crowd levels are estimates produced by a simulated occupancy engine now, and by user reports in a later stage.
+- Crowd levels are not official capacity data from any gym. The app labels them as estimates.
 
 ## Core Users
 
@@ -29,7 +30,7 @@ This document defines the product requirements that the roadmap, architecture, A
 
 ### Club Discovery
 
-- Users can browse GoodLife Fitness clubs in the Calgary area.
+- Users can browse gyms across Calgary and nearby areas.
 - Users can search clubs by name, address, neighborhood, or city.
 - Users can filter clubs by location attributes such as city, province, and amenities when available.
 - Users can view key club information, including name, address, contact details, coordinates, amenities, and current crowd status.
@@ -39,8 +40,8 @@ This document defines the product requirements that the roadmap, architecture, A
 - Users can view a current estimated crowd level for each club.
 - Supported crowd levels are Empty, Moderate, Busy, and Packed.
 - Occupancy data should show when it was last updated.
-- Occupancy estimates should be refreshed from recent crowd reports.
-- The target refresh interval for visible occupancy data is under 30 seconds once real-time infrastructure is implemented.
+- In the current build, occupancy comes from a simulated engine that updates on a schedule. User reports will feed the estimate in a later stage.
+- The target refresh interval for visible occupancy data is under 30 seconds, delivered through the real-time updates in this build.
 
 ### Crowd Reporting
 

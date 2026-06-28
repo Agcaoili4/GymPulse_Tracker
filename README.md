@@ -1,25 +1,26 @@
-# GoodLife Pulse Tracker
+# GymPulse
 
-GoodLife Pulse Tracker is a web application for finding GoodLife Fitness clubs in the Calgary area (and later other locations) and checking their estimated crowd level before visiting.
+GymPulse is a web application for finding gyms across Calgary and the surrounding area and checking their estimated crowd level before heading out. It covers many gym brands rather than a single chain.
 
-The product focuses on quick club discovery, estimated occupancy visibility, user-submitted crowd reports, and saved favorite locations.
+The product focuses on quick gym discovery, estimated occupancy visibility, and saved favorite gyms.
 
-Crowd levels are application estimates based on user reports and system logic. They should not be presented as official GoodLife Fitness capacity data unless an official data integration is added later.
+Crowd levels are estimates, not official capacity numbers from any gym. In the current build the live crowd levels are produced by a simulated occupancy engine and are labeled as such. The system is built so a real source, such as community reports or a paid foot-traffic API, can replace the simulated source later without changing the rest of the app.
 
 ## Product Scope
 
-### Phase 1 Scope (IN ROUTE)
+### Current Build
 
-- Search and browse GoodLife Fitness clubs in Calgary.
-- View club details, location information, and current estimated crowd status.
-- Submit simple crowd reports: Empty, Moderate, Busy, or Packed.
-- Save favorite clubs after authentication.
+- Search and browse gyms across Calgary and nearby areas, across brands.
+- View gym details, location information, and current estimated crowd status.
+- Watch crowd levels update live through a simulated occupancy engine and SignalR.
+- Save favorite gyms.
 - Build a responsive frontend and REST API foundation.
 
 ### Later Enhancements
 
+- User accounts and sign-in.
+- User-submitted crowd reports that feed the live crowd level.
 - Reviews and ratings.
-- SignalR-powered real-time occupancy updates.
 - Occupancy analytics and prediction.
 - Push notifications.
 - Administrative dashboard.
@@ -29,17 +30,19 @@ Crowd levels are application estimates based on user reports and system logic. T
 - Frontend: React, Vite, TypeScript, Tailwind CSS.
 - Backend: ASP.NET Core Web API (.NET 8).
 - Database: Microsoft SQL Server, with Entity Framework Core migrations.
-- Authentication: JWT-based authentication with hashed passwords.
-- Deployment target: Azure, with GitHub Actions for CI/CD.
+- Gym directory data: OpenStreetMap (Overpass API), imported once into the database.
+- Real-time updates: SignalR.
+- Authentication (later): JWT-based authentication with hashed passwords.
+- Deployment target: free hosting tiers, with GitHub Actions for CI/CD.
 
 ## Project Structure
 
 ```text
-backend/GoodLifePulse.Api/   ASP.NET Core Web API (controllers, services, DTOs, data)
-frontend/                    React + Vite + TypeScript client
-docs/                        Product, architecture, API, and database docs
-website_design/              UI mockups
-docker-compose.yml           Local SQL Server for development
+backend/GymPulse.Api/   ASP.NET Core Web API (controllers, services, DTOs, data)
+frontend/               React + Vite + TypeScript client
+docs/                   Product, architecture, API, and database docs
+website_design/         UI mockups
+docker-compose.yml      Local SQL Server for development
 ```
 
 ## Getting Started
@@ -65,7 +68,7 @@ This runs SQL Server on `localhost:1433`. The credentials are for local developm
 ### 2. Backend API
 
 ```bash
-cd backend/GoodLifePulse.Api
+cd backend/GymPulse.Api
 dotnet run
 ```
 
@@ -82,17 +85,17 @@ npm install
 npm run dev
 ```
 
-The frontend runs at `http://localhost:5173` and calls the backend at `http://localhost:5279`. Start the API first so club data loads. `npm start` runs the same Vite development server.
+The frontend runs at `http://localhost:5173` and calls the backend at `http://localhost:5279`. Start the API first so gym data loads. `npm start` runs the same Vite development server.
 
 ## API
 
 Current endpoints:
 
 - `GET /health` returns the API status.
-- `GET /api/clubs` returns clubs with search, city and province filters, and pagination.
-- `GET /api/clubs/{id}` returns a single club by ID.
+- `GET /api/clubs` returns gyms with search, city and province filters, and pagination.
+- `GET /api/clubs/{id}` returns a single gym by ID.
 
-See [docs/api-design.md](docs/api-design.md) for the full contract, including planned auth, occupancy, reports, and favorites endpoints.
+See [docs/api-design.md](docs/api-design.md) for the full contract, including occupancy and real-time updates, and the planned auth, reports, and favorites endpoints.
 
 ## Documentation
 
@@ -101,4 +104,3 @@ See [docs/api-design.md](docs/api-design.md) for the full contract, including pl
 - [API Design](docs/api-design.md)
 - [Database Schema](docs/database_schema.md)
 - [Project Roadmap](docs/project_roadmap.md)
-</content>

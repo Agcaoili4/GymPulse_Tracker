@@ -1,6 +1,6 @@
 # Frontend
 
-The GoodLife Pulse Tracker frontend uses React, Vite, TypeScript, TSX, and Tailwind CSS.
+The GymPulse frontend uses React, Vite, TypeScript, TSX, and Tailwind CSS.
 
 ## Scripts
 
