@@ -1,7 +1,7 @@
 services:
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: goodlife-db
+    container_name: gympulse-db
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_SA_PASSWORD: "DevPwd_ChangeMe123!"
@@ -9,7 +9,7 @@ services:
     ports:
       - "1433:1433"
     volumes:
-      - goodlife-db-data:/var/opt/mssql
+      - gympulse-db-data:/var/opt/mssql
 
 volumes:
-  goodlife-db-data:
+  gympulse-db-data:

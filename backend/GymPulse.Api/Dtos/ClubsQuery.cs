@@ -1,4 +1,4 @@
-namespace GoodLifePulse.Api.Dtos;
+namespace GymPulse.Api.Dtos;
 
 public record ClubsQuery(
     string? Search = null,

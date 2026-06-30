@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using GoodLifePulse.Api.Models;
+using GymPulse.Api.Models;
 
-namespace GoodLifePulse.Api.Data;
+namespace GymPulse.Api.Data;
 
 public class AppDbContext : DbContext
 {

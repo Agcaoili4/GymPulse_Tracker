@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace GoodLifePulse.Api.Migrations
+namespace GymPulse.Api.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

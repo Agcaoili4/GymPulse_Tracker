@@ -1,6 +1,6 @@
 // Class Models for Club
 
-namespace GoodLifePulse.Api.Models
+namespace GymPulse.Api.Models
 {
     public class Club
     {

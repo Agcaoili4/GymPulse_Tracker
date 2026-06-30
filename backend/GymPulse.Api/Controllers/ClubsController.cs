@@ -1,8 +1,8 @@
-using GoodLifePulse.Api.Dtos;
-using GoodLifePulse.Api.Services;
+using GymPulse.Api.Dtos;
+using GymPulse.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GoodLifePulse.Api.Controllers;
+namespace GymPulse.Api.Controllers;
 
 [ApiController]
 [Route("api/clubs")]

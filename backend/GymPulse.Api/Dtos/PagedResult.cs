@@ -1,4 +1,4 @@
-namespace GoodLifePulse.Api.Dtos;
+namespace GymPulse.Api.Dtos;
 
 public record PagedResult<T>(
     IReadOnlyList<T> Items,

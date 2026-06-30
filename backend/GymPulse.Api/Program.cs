@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using GoodLifePulse.Api.Data;
-using GoodLifePulse.Api.Services;
+using GymPulse.Api.Data;
+using GymPulse.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

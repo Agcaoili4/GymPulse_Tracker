@@ -1,9 +1,9 @@
-using GoodLifePulse.Api.Data;
-using GoodLifePulse.Api.Dtos;
-using GoodLifePulse.Api.Models;
+using GymPulse.Api.Data;
+using GymPulse.Api.Dtos;
+using GymPulse.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GoodLifePulse.Api.Services;
+namespace GymPulse.Api.Services;
 
 public class ClubService : IClubService
 {

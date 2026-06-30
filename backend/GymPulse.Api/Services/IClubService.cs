@@ -1,6 +1,6 @@
-using GoodLifePulse.Api.Dtos;
+using GymPulse.Api.Dtos;
 
-namespace GoodLifePulse.Api.Services;
+namespace GymPulse.Api.Services;
 
 public interface IClubService
 {

@@ -1,7 +1,7 @@
-using GoodLifePulse.Api.Models;
+using GymPulse.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace GoodLifePulse.Api.Data;
+namespace GymPulse.Api.Data;
 
 public static class Seeder
 {
