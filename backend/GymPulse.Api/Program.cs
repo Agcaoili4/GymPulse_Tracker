@@ -62,3 +62,6 @@ app.MapGet("/health", () => Results.Ok(new { status = "Healthy" }));
 app.MapControllers();
 
 app.Run();
+
+// Exposes the implicit Program class to the test project (WebApplicationFactory<Program>).
+public partial class Program { }
